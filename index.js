@@ -63,7 +63,7 @@ app.get('/min', async (req, res) => {
 
   // Step 2
   log(`\n2️⃣  ${chalk.bold.underline(`Bot connecting to Binance \n`)}`);
-  const browser = await puppeteer.launch({ headless: true, defaultViewport: null, args: [`--window-size=1400,800`] });
+  const browser = await puppeteer.launch({ args: [`--no-sandbox`] });
   const page = await browser.newPage();
 
   await setup(page)
