@@ -55,6 +55,8 @@ const setup = async (page) => {
   await page.waitForTimeout(2000);
 };
 
+app.get('/', (req, res) => res.status(200).json({ status: 'ok' }))
+
 app.get('/min', async (req, res) => {
 
   // Step 2
