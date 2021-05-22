@@ -3,35 +3,27 @@ const ui = new inquirer.ui.BottomBar();
 const chalk = require('chalk');
 const log = console.log;
 
-async function extractedEvaluateCall(page) {
+async function scrapeCheapest(page) {
   return page.evaluate(() => {
-    let data = [];
     let elements = document.querySelectorAll('main > div.css-16g55fu > div > div.css-vurnku > div');
-    for (var element of elements) {
-      let price = element.childNodes[1].innerText.replace('\nARS', '').replace(/,/g, '').split('.')[0];
-      data.push(parseFloat(price));
-    }
-    return data;
+
+    let element = elements[0]
+    let text = element.childNodes[0].innerText.split('\n')
+
+    let price = parseFloat(text[4].replace(',', ''));
+    let amount = parseFloat(text[7].split(' ')[0].replace(',', ''))
+
+
+    return {price, amount, text}
   });
 }
 
+/*
 let scrape = async (page) => {
-  let count = 0;
-  let results = [];
-  let firstScrap = true;
-  let paginationNext = await page.$$('main > div.css-16g55fu > div > div.css-kwfbf > div > button[disabled]');
+  let result = await
+}
+*/
 
-  while (paginationNext.length === 0 || firstScrap) {
-    count++;
-    firstScrap = false;
-    await page.waitForTimeout(500);
-    ui.updateBottomBar(`📄 ${chalk.bold(count)} ${chalk.grey(`${count > 1 ? 'pages indexed    ' : 'page indexed     '}`)} `);
-    results = results.concat(await extractedEvaluateCall(page));
-    paginationNext = await page.$$('main > div.css-16g55fu > div > div.css-kwfbf > div > button[disabled]');
-    (paginationNext.length > 0) ? log('✅ \n') : false;
-    await page.click('main > div.css-16g55fu > div > div.css-kwfbf > div > button');
-  }
-  return results;
-};
 
-module.exports = scrape;
+
+module.exports = scrapeCheapest;
