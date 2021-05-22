@@ -3,6 +3,8 @@ const puppeteer = require('puppeteer');
 const chalk = require('chalk');
 const express = require('express');
 
+const PORT = process.env.PORT || 4000;
+
 async function scrapeCheapest(page) {
   return page.evaluate(() => {
     let elements = document.querySelectorAll('main > div.css-16g55fu > div > div.css-vurnku > div');
@@ -75,7 +77,4 @@ app.get('/min', async (req, res) => {
 
 })
 
-const PORT = 4000
-
-app.listen(PORT)
-log(`Listening on port: ${PORT}`)
+app.listen(PORT, () => log(`App listening on port: ${PORT}`))
